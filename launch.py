@@ -35,6 +35,8 @@ class UserVision:
 
             # Read the saved image and display it
             #image = cv2.imread(filename)
+            height, width, _ = result.shape
+            print( height, width)
             cv2.imshow("Image", result.astype(np.uint8))
             cv2.waitKey(1)  # Add a small delay to allow GUI to refresh
 
@@ -51,15 +53,19 @@ if success:
     userVision = UserVision(bebopVision, bebop)
     bebopVision.set_user_callback_function(userVision.save_pictures, user_callback_args=None)
     success = bebopVision.open_video()
+
     bebop.safe_takeoff(10)
     bebop.smart_sleep(2)
     bebop.move_relative(0,0,-1.3,0)
+    bebop.pan_tilt_camera(-30,0)
+
 
     if success:
         print("Vision successfully started!")
 
         bebop.smart_sleep(15)
         bebop.safe_land(10)
+
         bebopVision.close_video()
 
     # disconnect nicely so we don't need a reboot

@@ -169,20 +169,9 @@ def draw_bbox(image, bboxes, info = False, show_label=True, classes=read_class_n
         bbox_thick = int(0.6 * (image_h + image_w) / 600)
         c1, c2 = ((xmin, ymin), (xmax, ymax))
         cv2.rectangle(image, c1, c2, bbox_color, bbox_thick)
+        cv2.rectangle(image, (408,220),(448,260), bbox_color, 1) #filled
+        cv2.circle(image, (barycenter[0], barycenter[1]), radius=5, color=(0, 0, 255), thickness=-1)
 
-        if info:
-            print("Object found: {}, Confidence: {:.2f}, BBox Coords (xmin, ymin, xmax, ymax): {}, {}, {}, {} ".format(class_name, score, xmin, ymin, xmax, ymax))
-
-        if show_label:
-            bbox_mess = '%s: %.2f' % (class_name, score)
-            t_size = cv2.getTextSize(bbox_mess, 0, fontScale, thickness=bbox_thick // 2)[0]
-            c3 = (c1[0] + t_size[0], c1[1] - t_size[1] - 3)
-            cv2.rectangle(image, c1, (int(c3[0]), int(c3[1])), bbox_color, -1) #filled
-            cv2.circle(image, (barycenter[0], barycenter[1]), radius=5, color=(0, 0, 255), thickness=-1)
-
-            cv2.putText(image, bbox_mess, (c1[0], int(c1[1] - 2)), cv2.FONT_HERSHEY_SIMPLEX,
-                        fontScale, (0, 0, 0), bbox_thick // 2, lineType=cv2.LINE_AA)
-            
         coordinates = [ymin, ymax, xmin, xmax]
     return image, coordinates
 
