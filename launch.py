@@ -53,7 +53,7 @@ if success:
     success = bebopVision.open_video()
     bebop.safe_takeoff(10)
     bebop.smart_sleep(2)
-    bebop.move_relative(0,0,-1,0)
+    bebop.move_relative(0,0,-1.3,0)
 
     if success:
         print("Vision successfully started!")
