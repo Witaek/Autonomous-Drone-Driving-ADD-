@@ -43,7 +43,7 @@ bebop = Bebop()
 
 # connect to the bebop
 success = bebop.connect(5)
-
+bebop.set_max_altitude(2)
 if success:
     # start up the video
     bebopVision = DroneVision(bebop, is_bebop=True)
@@ -52,11 +52,13 @@ if success:
     bebopVision.set_user_callback_function(userVision.save_pictures, user_callback_args=None)
     success = bebopVision.open_video()
     bebop.safe_takeoff(10)
+    bebop.smart_sleep(2)
+    bebop.move_relative(0,0,-1,0)
 
     if success:
         print("Vision successfully started!")
 
-        bebop.smart_sleep(20)
+        bebop.smart_sleep(15)
         bebop.safe_land(10)
         bebopVision.close_video()
 
