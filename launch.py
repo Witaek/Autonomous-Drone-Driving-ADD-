@@ -56,7 +56,7 @@ if success:
 
     bebop.safe_takeoff(10)
     bebop.smart_sleep(2)
-    bebop.move_relative(0,0,-1.3,0)
+    bebop.move_relative(0,0,-1.1,0)
     bebop.pan_tilt_camera(-30,0)
 
 
