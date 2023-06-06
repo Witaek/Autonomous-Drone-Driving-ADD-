@@ -69,10 +69,9 @@ def run_object_detection(image):
 
 
     pred_bbox = [boxes.numpy(), scores.numpy(), classes.numpy(), valid_detections.numpy()]
-    image, coordinates = utils.draw_bbox(image, pred_bbox)
+    image, coordinates, barycenter = utils.draw_bbox(image, pred_bbox)
 
     image = Image.fromarray(image.astype(np.uint8))
     image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
-    return image, coordinates
-    #cv2.imwrite(output_path, image)
+    return image, coordinates, barycenter
 

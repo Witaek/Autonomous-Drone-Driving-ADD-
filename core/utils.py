@@ -149,6 +149,7 @@ def draw_bbox(image, bboxes, info = False, show_label=True, classes=read_class_n
 
     out_boxes, out_scores, out_classes, num_boxes = bboxes
     coordinates = [0,0,0,0]
+    barycenter = (0,0)
 
     for i in range(num_boxes[0]):
         if int(out_classes[0][i]) < 0 or int(out_classes[0][i]) > num_classes: continue
@@ -169,11 +170,11 @@ def draw_bbox(image, bboxes, info = False, show_label=True, classes=read_class_n
         bbox_thick = int(0.6 * (image_h + image_w) / 600)
         c1, c2 = ((xmin, ymin), (xmax, ymax))
         cv2.rectangle(image, c1, c2, bbox_color, bbox_thick)
-        cv2.rectangle(image, (408,220),(448,260), bbox_color, 1) #filled
+        cv2.rectangle(image, (408,220),(448,260), bbox_color, 1)
         cv2.circle(image, (barycenter[0], barycenter[1]), radius=5, color=(0, 0, 255), thickness=-1)
 
         coordinates = [ymin, ymax, xmin, xmax]
-    return image, coordinates
+    return image, coordinates, barycenter
 
 def calculate_barycenter(ymin, ymax, xmin, xmax):
     center_x = (xmin + xmax) / 2

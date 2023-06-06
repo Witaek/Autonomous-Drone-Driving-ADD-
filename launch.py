@@ -19,24 +19,41 @@ class UserVision:
     def save_pictures(self, args):
         current_time = time.time()
         time_diff = current_time - self.last_picture_time
-        if time_diff < 1:
+        if time_diff < 0.5:
             # wait until one second has passed since last picture
             return
         self.last_picture_time = current_time
 
         img = self.vision.get_latest_valid_picture()
         if img is not None:
-            #filename = "test_image_%06d.png" % self.index
-            result, coordinates = detector.run_object_detection(img)
-            #cv2.imwrite(filename, img)
+            result, coordinates, barycenter = detector.run_object_detection(img)
             self.index += 1
 
-            print(coordinates)
+            print(coordinates, barycenter)
 
-            # Read the saved image and display it
-            #image = cv2.imread(filename)
-            height, width, _ = result.shape
-            print( height, width)
+            if (coordinates != [0,0,0,0]):
+                bx = barycenter[0]
+                by = barycenter[1]
+
+                rapport = (coordinates[1] - coordinates[0]) / (coordinates[3] - coordinates[2])
+                print(rapport)
+
+                if(bx > 448):
+                    print("rotate right")
+                    self.drone.move_relative(0,0,0,0.1)
+                elif(bx < 408):
+                    print("rotate left")
+                    self.drone.move_relative(0,0,0,-0.1)
+                elif (rapport >= 2 and by < 220):
+                    print("move frontward")
+                    self.drone.move_relative(.15,0,0,0)
+
+                elif (by > 260):
+                    print("move backward")
+                    self.drone.move_relative(-.15,0,0,0)
+                
+
+
             cv2.imshow("Image", result.astype(np.uint8))
             cv2.waitKey(1)  # Add a small delay to allow GUI to refresh
 
@@ -55,15 +72,14 @@ if success:
     success = bebopVision.open_video()
 
     bebop.safe_takeoff(10)
-    bebop.smart_sleep(2)
-    bebop.move_relative(0,0,-1.1,0)
+    bebop.move_relative(0,0,-1.3,0)
     bebop.pan_tilt_camera(-30,0)
 
 
     if success:
         print("Vision successfully started!")
 
-        bebop.smart_sleep(15)
+        bebop.smart_sleep(60)
         bebop.safe_land(10)
 
         bebopVision.close_video()
