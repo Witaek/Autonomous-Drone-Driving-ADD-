@@ -136,6 +136,8 @@ def format_boxes(bboxes, image_height, image_width):
         box[0], box[1], box[2], box[3] = xmin, ymin, width, height
     return bboxes
 
+# ==================================== Fonction à modifier pour les dessins sur l'image (rectangle, barycentre, ...) ================================
+
 def draw_bbox(image, bboxes, info = False, show_label=True, classes=read_class_names(cfg.YOLO.CLASSES)):
     num_classes = len(classes)
     image_h, image_w, _ = image.shape
@@ -160,7 +162,7 @@ def draw_bbox(image, bboxes, info = False, show_label=True, classes=read_class_n
         ymax = int(box[2] * image_h)
         xmax = int(box[3] * image_w)
 
-        barycenter = calculate_barycenter(ymin, ymax, xmin, xmax)
+        barycenter = calculate_barycenter(ymin, ymax, xmin, xmax) # calcule du barycentre en fonction des coordonnées du rectangle de détection
 
         fontScale = 0.5
         score = out_scores[0][i]
@@ -169,13 +171,16 @@ def draw_bbox(image, bboxes, info = False, show_label=True, classes=read_class_n
         bbox_color = colors[class_ind]
         bbox_thick = int(0.6 * (image_h + image_w) / 600)
         c1, c2 = ((xmin, ymin), (xmax, ymax))
-        cv2.rectangle(image, c1, c2, bbox_color, bbox_thick)
-        cv2.rectangle(image, (408,220),(448,260), bbox_color, 1)
-        cv2.circle(image, (barycenter[0], barycenter[1]), radius=5, color=(0, 0, 255), thickness=-1)
+        cv2.rectangle(image, c1, c2, bbox_color, bbox_thick) # dessin du rectangle de détection
+        cv2.rectangle(image, (408,220),(448,260), bbox_color, 1) # dessin du carré du centre du champ de vision du drone
+        cv2.circle(image, (barycenter[0], barycenter[1]), radius=5, color=(0, 0, 255), thickness=-1) # dessin du barycentre 
 
         coordinates = [ymin, ymax, xmin, xmax]
-    return image, coordinates, barycenter
+    return image, coordinates, barycenter # on revoit l'image avec les dessins, les coordonnées du rectangle de détection et celles du barycentre
 
+# ========================================================= fin =======================================================================================
+
+#Calcul du barycentre avec les coordonnées du rectangle de détection
 def calculate_barycenter(ymin, ymax, xmin, xmax):
     center_x = (xmin + xmax) / 2
     center_y = (ymin + ymax) / 2
