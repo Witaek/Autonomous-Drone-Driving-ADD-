@@ -4,18 +4,45 @@ Cassiopée 2023
 
 Notre projet a pour but de permettre la conduite autonome d’un drone. Le drone est capable d’effectuer des mouvements simples pour se positionner par rapport à une cible, et être capable de suivre cette même cible en mouvement, le tout en toute autonomie. Pour cela, nous disposons d’un drone Bebop Power 2 de la marque Parrot et nous proposons d’utiliser YOLOv4, un outil d’analyse d’image, afin de gérer la détection de la cible (une personne dans notre cas) sur le flux vidéo du drone.
 
+
+Pour plus de détail, le rapport du projet est fourni dans ```rapport.pdf```
+
 ## Config
 
 OS :  Ubuntu 18.04.6 LTS (Bionic Beaver). Il semble que cela soit l'OS à privilégier pour que cela fonctionne (travail infructueux sous Debian 11)
 
 Python : 3.6.9
 
-Une VM clone de notre environnement de travail a été faite avec virtual box.
+Machine utilisée : 
 
+- Nom de l'appareil	LAPTOP-KIFGEJ7G
+
+- Processeur	11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz   2.42 GHz
+
+- Mémoire RAM installée	16,0 Go (15,7 Go utilisable)
+
+- Type du système	Système d’exploitation 64 bits, processeur x64
+
+
+Une VM clone de notre environnement de travail a été faite avec virtual box. Si toutefois vous vouliez reproduire manuellement l'environnement de travail que nous avons utilisé, une copie des packages utilisé est fournie dans le dossier ```packages```.
+
+
+Afin d'installer les packages contenues dans cette archive : 
+
+1. Faire attention d'être sous le même OS que nous, les détails sont contenus dans le fichier ```version.txt```.
+2. Installer le package apt-clone : 
+  ```bash
+~$ sudo apt install apt-clone
+```
+3. Réinstaller tous les packages à partir de l'archive :
+```bash
+~$ sudo apt-clone restore ~/packages/apt-clone-state-cassiopee-VivoBook-ASUSLaptop-X513EA-K513EA.tar.gz
+```
+Pour plus de détails, voir [ici](https://github.com/mvo5/apt-clone).
 <br/>
 
 ## Pré-requis 
-Le fichier ```requirements.txt``` contient tous les packages à installer pour faire fonctionner YOLO. Pour tout installer, executez la commande suivante : 
+Le fichier ```requirements.txt``` contient tous les packages Python à installer pour faire fonctionner notre travail. Pour tout installer, executez la commande suivante : 
 ``` bash
 ~$ pip install -r requirements.txt
 ```
