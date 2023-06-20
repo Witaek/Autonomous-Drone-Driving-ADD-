@@ -15,7 +15,7 @@ Python : 3.6.9
 
 Machine utilisée : 
 
-- Nom de l'appareil	LAPTOP-KIFGEJ7G
+- Modèle : ASUS Vivobook 15
 
 - Processeur	11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz   2.42 GHz
 
